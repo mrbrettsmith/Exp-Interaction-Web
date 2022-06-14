@@ -183,7 +183,7 @@ function clockFace() {
     textFont('helvetica');
     textAlign(CENTER);
     textSize(18);
-    text('Hello', 0,5);
+    text(hour() + ':' + minute() + ':' + second() , 0,5);
 }
 
     // add coffee //
