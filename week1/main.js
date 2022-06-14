@@ -19,11 +19,12 @@ let coffee = 0;
 // let hourColor = 255, 140, 0;
 
 // let time = text('\n' + h + m + s)
+let secSpin = 0;
+let minSpin = 0;
+let hourSpin = 0;
 
-let spin = 0;
-let angle = 0;
 
-let hangle = 0;
+let hAngle = 0;
 let mangle = 0;
 let sangle = 0;
 
@@ -32,49 +33,23 @@ function setup() {
     angleMode(DEGREES);
 }
 
+
+
+
 function draw() {
-background('white')
-// wavy circle test. !!! This video is great for visualizing sin and cosin waves !!! source: https://www.youtube.com/watch?v=MzhBizCmpi8 // 
+    background('white')
+    // wavy circle test. !!! This video is great for visualizing sin and cosin waves !!! source: https://www.youtube.com/watch?v=MzhBizCmpi8 // 
 
-// to be removed
-translate(width / 2, height / 2);
-stroke('red');
-fill('pink');
-strokeWeight(0);
-
-// New Seconds //
-// Pulse and overall spin re: time //
-var secDiam = sin(angle) + maxSec;
-  maxSec = sin(angle) + secsDirect;
+    translate(width / 2, height / 2);
+    seconds();
+    minutes();
+    hours();
+    clockFace();
     
-    if (second() <= 30)  {
-        secsDirect = secsDirect + .2;
-    } else if (second() > 30) {
-        secsDirect = secsDirect - .2;
-    }
 
-    beginShape()
-   for (let i = 0; i <359; i++) {
-        // whoa, this is freaky! sin & multiplier adds second sine to wave pattern//
-        spin = spin + sin(i) * 4
+    // noStroke();
 
-        //This is the spin animation. It advances by .004 each cycle - is clockwise + is counter // amount is speed // 
-        spin = spin + .004 + coffee
-
-        var rMin = map(sin(frameCount), -1, 1, 90, 100)
-        var rMax = map(sin(frameCount), -1, 100, 80, 100)
-
-        // adding spin is counterclockwase, subtracting is clockwise //
-        var r = map(sin(i * 10 + spin), -1, 1, rMin + secDiam, rMax + secDiam)
-        var x = r * cos(i)
-        var y = r * sin(i)
-        
-        vertex(x, y)
-        
-    }
-    endShape(CLOSE);
-
-    // Coffee Crash //
+        // Coffee Crash //
     if (coffee > 2 ) {
         coffee = coffee -.25;
     } else if(coffee > 1 ) {
@@ -84,9 +59,138 @@ var secDiam = sin(angle) + maxSec;
     } else if(coffee < 0){
         coffee + coffee +.0001;
     }
-
+    console.log('seconds ', second());
     console.log('spin ', coffee);
-    console.log('second diamiter ', secDiam);
+    // console.log('second diamiter ', secDiamOut);
+}
+
+
+function seconds() {
+
+        // Pulse diamiter re: time //
+    var secDiamOut = sin(sangle) + maxSec * .25;
+        maxSec = sin(sangle) + secsDirect;
+
+    var secDiamIn = sin(sangle) + maxSec * .15;
+        maxSec = sin(sangle) + secsDirect;
+  
+    if (second() <= 30)  {
+        secsDirect = secsDirect + .2;
+    } else if (second() > 30) {
+        secsDirect = secsDirect - .2;
+    }
+        // shape to be pulsed + moved //
+    beginShape()
+    fill(187, 227, 54, 40)
+    for (let s = 0; s <359; s++) {
+            // whoa, this is freaky! sin & multiplier adds second sine to wave pattern//
+        secSpin = secSpin + sin(s) * 4
+
+            //This is the spin animation. It advances by .004 each cycle - is clockwise + is counter // amount is speed // 
+        secSpin = secSpin + .004 + coffee
+
+        var rMin = map(sin(frameCount), -1, 1, 80, 100)
+        var rMax = map(sin(frameCount), -1, 1, 100, 120)
+
+            // adding spin is counterclockwase, subtracting is clockwise //
+        var r = map(sin(s * 10 + secSpin), -1, 1, rMin + secDiamIn, rMax + secDiamOut)
+        var x = r * cos(s)
+        var y = r * sin(s)
+      
+        vertex(x, y)
+    }
+    endShape(CLOSE);
+}
+
+function minutes() {
+        // Pulse diamiter re: time //
+    var minDiamOut = sin(mangle) + maxMin * .8;
+    maxMin = sin(mangle) + minDirect;
+
+    var minDiamIn = sin(mangle) + maxMin * 1;
+    maxMin = sin(mangle) + minDirect;
+
+        // Clock Seting //
+    if (minute() <= 30)  {
+        minDirect = minDirect + .02;
+    } else if (minute() > 30) {
+        minDirect = minDirect - .02;
+    }
+        // shape to be pulsed + moved //
+    beginShape()
+    fill(227, 187, 54, 30)
+    for (let m = 0; m <359; m++) {
+            // Sin & multiplier adds second sine over wave pattern//
+        minSpin = minSpin + sin(m) * 4
+
+            //Spin animation. It advances by .004 each cycle - is clockwise + is counter // amount is speed // 
+        minSpin = minSpin + .003 + coffee * .25
+
+            // Define crest & valley depth
+        var rMin = map(sin(frameCount), -1, 1, 80, 85)
+        var rMax = map(sin(frameCount), -1, 1, 75, 130)
+
+            // adding spin is counterclockwase, subtracting is clockwise //
+        var r = map(sin(m * 10 + minSpin), -1, 1, rMin + minDiamIn, rMax + minDiamOut)
+        var x = r * cos(m)
+        var y = r * sin(m)
+      
+        vertex(x, y) 
+  }
+  endShape(CLOSE);
+}
+
+function hours() {
+
+    // Pulse diamiter re: time //
+    var hourDiamOut = sin(hAngle) + maxSec * .25;
+        maxSec = sin(hAngle) + hourDirect;
+
+    var hourDiamIn = sin(hAngle) + maxSec * .15;
+        maxSec = sin(hAngle) + hourDirect;
+
+    if (second() <= 30)  {
+        hourDirect = hourDirect + .002;
+    } else if (second() > 30) {
+        hourDirect = hourDirect - .002;
+    }
+        // shape to be pulsed + moved //
+    beginShape()
+        fill(255, 140, 0, 30);
+        for (let h = 0; h <359; h++) {
+                // Sin & multiplier adds second sine to wave pattern//
+            hourSpin = hourSpin + sin(h) * 4
+
+                //This is the spin animation. It advances by .004 each cycle - is clockwise + is counter // amount is speed // 
+            hourSpin = hourSpin + .004 + coffee * .05
+
+            var rMin = map(sin(frameCount), -1, 1, 80, 100)
+            var rMax = map(sin(frameCount), -1, 1, 100, 120)
+
+                // adding spin is counterclockwase, subtracting is clockwise //
+            var r = map(sin(h * 10 + hourSpin), -1, 1, rMin + hourDiamIn, rMax + hourDiamOut)
+            var x = r * cos(h)
+            var y = r * sin(h)
+        
+            vertex(x, y)
+        }   
+    endShape(CLOSE);
+}
+
+function clockFace() {
+    // noStroke();
+    fill('black');
+    textFont('helvetica');
+    textAlign(CENTER);
+    textSize(18);
+    text('Hello', 0,5);
+}
+
+    // add coffee //
+function mousePressed() {
+    coffee = coffee + .05;
+}
+
 // old time based pulse //
 
     // let hours = hour();
@@ -157,12 +261,4 @@ var secDiam = sin(angle) + maxSec;
     // mangle = mangle + (minute() * .001);
     // sangle = sangle + (second () * .001);
 
-    // fill('white')
-    // strokeWeight(0);
-    // text('' + hour() + minute() + second(), width/2, height/2);
-
-}
-
-function mousePressed() {
-    coffee = coffee + .05;
-}
+    
