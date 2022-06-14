@@ -4,6 +4,8 @@ var hours;
 var mins;
 var secs;
 
+
+
 // Circle Max Size //
 var maxHour;
 var maxMin;
@@ -37,7 +39,11 @@ function setup() {
 
 
 function draw() {
-    background('white')
+    let dawn = color(250, 252, 237);
+    let dusk = color(55, 58, 105 );
+    let hourC;
+
+    background(dawn);
     // wavy circle test. !!! This video is great for visualizing sin and cosin waves !!! source: https://www.youtube.com/watch?v=MzhBizCmpi8 // 
 
     translate(width / 2, height / 2);
@@ -45,9 +51,24 @@ function draw() {
     minutes();
     hours();
     clockFace();
-    
+    colorMode(RGB);
 
-    // noStroke();
+    // Sun Cycle //
+
+   
+    // let pct = map(hour(), dawn, dusk, 0,1);
+    // let early = lerpColor(dawn, dusk, pct);
+    // let morning = lerpColor
+    // let afternoon = lerpColor
+    // let late = lerpColor(c1, c2, amt)
+
+    if (hour() > 0) {
+        hourC = dawn;
+    } else if( hour() > 18) {
+        hourC = dusk;
+    }
+
+
 
         // Coffee Crash //
     if (coffee > 2 ) {
@@ -59,6 +80,8 @@ function draw() {
     } else if(coffee < 0){
         coffee + coffee +.0001;
     }
+    noStroke();
+    
     console.log('seconds ', second());
     console.log('spin ', coffee);
     // console.log('second diamiter ', secDiamOut);
@@ -89,8 +112,8 @@ function seconds() {
             //This is the spin animation. It advances by .004 each cycle - is clockwise + is counter // amount is speed // 
         secSpin = secSpin + .004 + coffee
 
-        var rMin = map(sin(frameCount), -1, 1, 80, 100)
-        var rMax = map(sin(frameCount), -1, 1, 100, 120)
+        var rMin = map(sin(frameCount), -1, 1, 80, 110)
+        var rMax = map(sin(frameCount), -1, 1, 90, 120)
 
             // adding spin is counterclockwase, subtracting is clockwise //
         var r = map(sin(s * 10 + secSpin), -1, 1, rMin + secDiamIn, rMax + secDiamOut)
@@ -112,9 +135,9 @@ function minutes() {
 
         // Clock Seting //
     if (minute() <= 30)  {
-        minDirect = minDirect + .02;
+        minDirect = minDirect + .03;
     } else if (minute() > 30) {
-        minDirect = minDirect - .02;
+        minDirect = minDirect - .03;
     }
         // shape to be pulsed + moved //
     beginShape()
@@ -124,11 +147,11 @@ function minutes() {
         minSpin = minSpin + sin(m) * 4
 
             //Spin animation. It advances by .004 each cycle - is clockwise + is counter // amount is speed // 
-        minSpin = minSpin + .003 + coffee * .25
+        minSpin = minSpin + .002 + coffee * .25
 
             // Define crest & valley depth
-        var rMin = map(sin(frameCount), -1, 1, 80, 85)
-        var rMax = map(sin(frameCount), -1, 1, 75, 130)
+        var rMin = map(sin(frameCount), -1, 1, 130, 155)
+        var rMax = map(sin(frameCount), -1, 1, 180, 180)
 
             // adding spin is counterclockwase, subtracting is clockwise //
         var r = map(sin(m * 10 + minSpin), -1, 1, rMin + minDiamIn, rMax + minDiamOut)
@@ -159,13 +182,13 @@ function hours() {
         fill(255, 140, 0, 30);
         for (let h = 0; h <359; h++) {
                 // Sin & multiplier adds second sine to wave pattern//
-            hourSpin = hourSpin + sin(h) * 4
+            hourSpin = hourSpin + sin(h) * 3
 
-                //This is the spin animation. It advances by .004 each cycle - is clockwise + is counter // amount is speed // 
-            hourSpin = hourSpin + .004 + coffee * .05
+                //This is the spin animation. It advances by X each cycle - is clockwise + is counter // amount is speed // 
+            hourSpin = hourSpin + .0004 + coffee * .05
 
-            var rMin = map(sin(frameCount), -1, 1, 80, 100)
-            var rMax = map(sin(frameCount), -1, 1, 100, 120)
+            var rMin = map(sin(frameCount), -1, 1, 220, 265)
+            var rMax = map(sin(frameCount), -1, 1, 255, 280)
 
                 // adding spin is counterclockwase, subtracting is clockwise //
             var r = map(sin(h * 10 + hourSpin), -1, 1, rMin + hourDiamIn, rMax + hourDiamOut)
@@ -179,12 +202,12 @@ function hours() {
 
 function clockFace() {
     // noStroke();
-    fill('black');
+    fill('grey');
     textFont('helvetica');
     textAlign(CENTER);
-    textSize(18);
-    text('Click to Sip Coffee', 0, -9)
-    text(hour() + ':' + minute() + ':' + second() , 0,9);
+    textSize(14);
+    text('Sip Coffee', 0, -9)
+    text(hour() + ' : ' + minute() + ' : ' + second() , 0,9);
 }
 
     // add coffee //
@@ -192,74 +215,3 @@ function mousePressed() {
     coffee = coffee + .05;
 }
 
-// old time based pulse //
-
-    // let hours = hour();
-    // let mins = minute();
-    // let secs = second();
-
-    // var hourDiam = 100 + sin(angle) * maxHour;
-    // var minDiam = 200 + sin(angle) * maxMin;
-    // var secDiam = 150 + sin(angle) + maxSec;
-
-
-    // // having problems making pulse distance change //
-
-    // maxHour = sin(angle) + hourDirect;
-
-    // if (hour() <= 30)  {
-    //     hourDirect = hourDirect + .002;
-    // } else if (hour() > 30) {
-    //     hourDirect = hourDirect - .002;
-    // }
-
-    // maxMin = sin(angle) + minDirect;
-
-    // if (minute() <= 30)  {
-    //         minDirect = minDirect + .02;
-    //     } else if (minute() > 30) {
-    //         minDirect = minDirect - .02;
-    //     }
-
-    // maxSec = sin(angle) + secsDirect;
-    
-    // if (second() <= 30)  {
-    //     secsDirect = secsDirect + .2;
-    // } else if (second() > 30) {
-    //     secsDirect = secsDirect - .2;
-    // }
-
-   
-
-    // background('white');
-    // noFill();
-    // textFont('helvetica')
-    // textAlign(CENTER)
-    // textSize(18);
-
-    // // Seconds//
-
-    
-    // fill(187, 227, 54, 40);
-    // // strokeWeight(4);
-    // ellipse(width/2, height/2, secDiam, secDiam);
-
-    // // Minutes //
-    // fill(227, 187, 54, 30);
-    // // strokeWeight(4);
-    // ellipse(width/2, height/2, minDiam, minDiam);
-
-    // // Hours //
-    // fill(255, 140, 0, 30);
-    // // strokeWeight(4);
-    // ellipse(width/2, height/2, hourDiam *4, hourDiam *4);
-
-    // // Angle determines the rate of pulse //
-    // angle = angle + .06;
-    
-
-    // hangle = hangle + (hour() * .001);
-    // mangle = mangle + (minute() * .001);
-    // sangle = sangle + (second () * .001);
-
-    
