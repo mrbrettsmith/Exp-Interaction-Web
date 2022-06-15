@@ -1,10 +1,4 @@
-
-// getting time from device //
-var hours;
-var mins;
-var secs;
-
-
+// !!! This video is great for visualizing sin and cosin waves !!! source: https://www.youtube.com/watch?v=MzhBizCmpi8 // 
 
 // Circle Max Size //
 var maxHour;
@@ -25,7 +19,7 @@ let secSpin = 0;
 let minSpin = 0;
 let hourSpin = 0;
 
-
+// sin and cos specifics //
 let hAngle = 0;
 let mangle = 0;
 let sangle = 0;
@@ -41,11 +35,18 @@ function setup() {
 function draw() {
     let dawn = color(250, 252, 237);
     let dusk = color(55, 58, 105 );
-    let hourC;
+    let timePct = map(hour(), 0, 24, 0, 100);
+    let mousePct = map(mouseX, 1, 800, 0, 100);
+    let early = lerpColor(dawn, dusk, mousePct);
 
-    background(dawn);
-    // wavy circle test. !!! This video is great for visualizing sin and cosin waves !!! source: https://www.youtube.com/watch?v=MzhBizCmpi8 // 
-
+    // if (timePct < 25) {
+    //     background(dawn);
+    // } else if(timePct < 71) {
+    //     background(dusk);
+    // }
+   
+    
+    background(early)
     translate(width / 2, height / 2);
     seconds();
     minutes();
@@ -53,20 +54,17 @@ function draw() {
     clockFace();
     colorMode(RGB);
 
-    // Sun Cycle //
-
-   
-    // let pct = map(hour(), dawn, dusk, 0,1);
-    // let early = lerpColor(dawn, dusk, pct);
+    // Lerp Tester //
+    
     // let morning = lerpColor
     // let afternoon = lerpColor
     // let late = lerpColor(c1, c2, amt)
 
-    if (hour() > 0) {
-        hourC = dawn;
-    } else if( hour() > 18) {
-        hourC = dusk;
-    }
+    
+
+    // Sun Cycle //
+
+ 
 
 
 
@@ -84,6 +82,8 @@ function draw() {
     
     console.log('seconds ', second());
     console.log('spin ', coffee);
+    console.log('time Percent', timePct);
+    console.log('mouse x', mouseX);
     // console.log('second diamiter ', secDiamOut);
 }
 
@@ -135,9 +135,9 @@ function minutes() {
 
         // Clock Seting //
     if (minute() <= 30)  {
-        minDirect = minDirect + .03;
+        minDirect = minDirect + (width * .000009);
     } else if (minute() > 30) {
-        minDirect = minDirect - .03;
+        minDirect = minDirect - (width * .000009);
     }
         // shape to be pulsed + moved //
     beginShape()
