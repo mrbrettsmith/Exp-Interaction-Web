@@ -26,7 +26,6 @@ let hAngle = 0;
 let mangle = 0;
 let sangle = 0;
 
-
 function setup() {
     createCanvas(windowWidth, windowHeight);
     angleMode(DEGREES);
@@ -37,8 +36,7 @@ function setup() {
 function draw() {
     dawn = color(250, 252, 237);
     dusk = color(55, 58, 105 );
-    // map hour 0 - 24 //
-    
+   
 
     // var timePct = map(second(), 0, 60, 1, 100);
 
@@ -50,11 +48,12 @@ function draw() {
     translate(width / 2, height / 2);
     colorMode(RGB);
     timeColor();
+    background(hourColor);
     seconds();
     minutes();
     hours();
     clockFace();
-    
+   
 
         // Coffee Crash //
     if (coffee > 2 ) {
@@ -70,11 +69,11 @@ function draw() {
 
     // Console Monitor //
     console.log('seconds ', second());
-    console.log('hour ', hour());
-    console.log('spin ', coffee);
-    console.log('time Percent', timePct);
-    console.log('mouse x', mouseX);
-    console.log( "Mouse Pct",  mousePct);
+    // console.log('hour ', hour());
+    // console.log('spin ', coffee);
+    // console.log('time Percent', timePct);
+    // console.log('mouse x', mouseX);
+    // console.log( "Mouse Pct",  mousePct);
     
     // console.log('second diamiter ', secDiamOut);
 }
@@ -90,7 +89,9 @@ function timeColor() {
      if(second() > 30 && second() <= 60) {
         hourColor = lerpHour(dawn, dusk, 30, 60);
     }
-    
+
+
+    // Lerp test with Mouse //
     // if (mouseX >= 0 && mouseX <= width/2) {
     //     hourColor =  lerpHour(dusk, dawn, 0, width/2);
     // }
@@ -99,10 +100,6 @@ function timeColor() {
     // }
 
 
-    // Lerp test with Mouse //
-    // hourColor = lerpHour(dawn, dusk, 0, width);
-
-    background(hourColor);
 }
 
 function lerpHour(from, to, startTime, endTime) {
@@ -111,7 +108,6 @@ function lerpHour(from, to, startTime, endTime) {
     // const mousePct = map(mouseX, 0, width, 0, 1);
     // return lerpColor(color(from), color(to), mousePct);
     
-
     const timePct = map(second(), 0, 60, 0, 1);
     return lerpColor(color(from), color(to), timePct);
 
@@ -120,10 +116,11 @@ function lerpHour(from, to, startTime, endTime) {
 function seconds() {
 
         // Pulse diamiter re: time //
-    var secDiamOut = sin(sangle) + maxSec * .25;
+        // could add 'if' to make grow over an hour???//
+    var secDiamOut = sin(sangle) + maxSec * .15;
         maxSec = sin(sangle) + secsDirect;
 
-    var secDiamIn = sin(sangle) + maxSec * .15;
+    var secDiamIn = sin(sangle) + maxSec * .10;
         maxSec = sin(sangle) + secsDirect;
   
     if (second() <= 30)  {
@@ -201,10 +198,12 @@ function hours() {
     var hourDiamIn = sin(hAngle) + maxSec * .15;
         maxSec = sin(hAngle) + hourDirect;
 
-    if (second() <= 30)  {
-        hourDirect = hourDirect + .002;
-    } else if (second() > 30) {
-        hourDirect = hourDirect - .002;
+        minute() >= 0 && minute() <= 30
+        // Clock Seting //
+    if (hour() >= 0 && hour() < 12)  {
+        hourDirect = hourDirect + (width * .000009);
+    } else if (hour() >= 12 && hour() <= 24) {
+        hourDirect = hourDirect - (width * .000009);
     }
         // shape to be pulsed + moved //
     beginShape()
@@ -231,7 +230,7 @@ function hours() {
 
 function clockFace() {
     // noStroke();
-    fill('grey');
+    fill('smoke');
     textFont('helvetica');
     textAlign(CENTER);
     textSize(14);
