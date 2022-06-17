@@ -12,7 +12,9 @@ let secsDirect = 0;
 
 let coffee = 0;
 // ColorChange //
-// let hourColor = 255, 140, 0;
+let hourColor;
+let timePct;
+let mousePct;
 
 // let time = text('\n' + h + m + s)
 let secSpin = 0;
@@ -24,49 +26,35 @@ let hAngle = 0;
 let mangle = 0;
 let sangle = 0;
 
+
 function setup() {
     createCanvas(windowWidth, windowHeight);
     angleMode(DEGREES);
+    
 }
 
 
-
-
 function draw() {
-    let dawn = color(250, 252, 237);
-    let dusk = color(55, 58, 105 );
-    let timePct = map(hour(), 0, 24, 0, 100);
-    let mousePct = map(mouseX, 1, 800, 0, 100);
-    let early = lerpColor(dawn, dusk, mousePct);
-
-    // if (timePct < 25) {
-    //     background(dawn);
-    // } else if(timePct < 71) {
-    //     background(dusk);
-    // }
-   
+    dawn = color(250, 252, 237);
+    dusk = color(55, 58, 105 );
+    // map hour 0 - 24 //
     
-    background(early)
+
+    // var timePct = map(second(), 0, 60, 1, 100);
+
+
+    // let mousePct = map(mouseX, 1, 800, 0, 100);
+    // var morning = lerpColor(dawn, dusk, timePct);
+    // var evening = lerpColor(dusk, dawn, timePct);
+
     translate(width / 2, height / 2);
+    colorMode(RGB);
+    timeColor();
     seconds();
     minutes();
     hours();
     clockFace();
-    colorMode(RGB);
-
-    // Lerp Tester //
     
-    // let morning = lerpColor
-    // let afternoon = lerpColor
-    // let late = lerpColor(c1, c2, amt)
-
-    
-
-    // Sun Cycle //
-
- 
-
-
 
         // Coffee Crash //
     if (coffee > 2 ) {
@@ -79,14 +67,55 @@ function draw() {
         coffee + coffee +.0001;
     }
     noStroke();
-    
+
+    // Console Monitor //
     console.log('seconds ', second());
+    console.log('hour ', hour());
     console.log('spin ', coffee);
     console.log('time Percent', timePct);
     console.log('mouse x', mouseX);
+    console.log( "Mouse Pct",  mousePct);
+    
     // console.log('second diamiter ', secDiamOut);
 }
 
+
+    // new sky try - https://stackoverflow.com/questions/60196138/lerp-background-colour-based-on-time-of-day //
+
+function timeColor() {
+    
+    if (second() >= 0 && second() <= 30) {
+        hourColor =  lerpHour(dusk, dawn, 0, 30);
+    }
+     if(second() > 30 && second() <= 60) {
+        hourColor = lerpHour(dawn, dusk, 30, 60);
+    }
+    
+    // if (mouseX >= 0 && mouseX <= width/2) {
+    //     hourColor =  lerpHour(dusk, dawn, 0, width/2);
+    // }
+    //  if(mouseX > width/2 && mouseX <= width) {
+    //     hourColor = lerpHour(dawn, dusk, width/2, width);
+    // }
+
+
+    // Lerp test with Mouse //
+    // hourColor = lerpHour(dawn, dusk, 0, width);
+
+    background(hourColor);
+}
+
+function lerpHour(from, to, startTime, endTime) {
+
+    // Lerp Test with Mouse - Must be bianary out? //
+    // const mousePct = map(mouseX, 0, width, 0, 1);
+    // return lerpColor(color(from), color(to), mousePct);
+    
+
+    const timePct = map(second(), 0, 60, 0, 1);
+    return lerpColor(color(from), color(to), timePct);
+
+}
 
 function seconds() {
 
