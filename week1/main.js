@@ -10,7 +10,12 @@ let hourDirect = 0;
 let minDirect = 0;
 let secsDirect = 0;
 
+// Coffee Function /
 let coffee = 0;
+let clickDist;
+let clickRad = 50;
+
+
 // ColorChange //
 let hourColor;
 let timePct;
@@ -26,25 +31,22 @@ let hAngle = 0;
 let mangle = 0;
 let sangle = 0;
 
+// function preload() {
+//     coffeeMug = loadImage('assets/cafe.gif')
+// }
+
 function setup() {
     createCanvas(windowWidth, windowHeight);
     angleMode(DEGREES);
-    
 }
 
-
 function draw() {
-    dawn = color(250, 252, 237);
-    dusk = color(55, 58, 105 );
-   
-
-    // var timePct = map(second(), 0, 60, 1, 100);
-
-
-    // let mousePct = map(mouseX, 1, 800, 0, 100);
-    // var morning = lerpColor(dawn, dusk, timePct);
-    // var evening = lerpColor(dusk, dawn, timePct);
-
+    night = color(25, 28, 74, 80)
+    dawn = color(250, 252, 237, 80);
+    midday = color(251, 255, 219, 80)
+    sunset = color(255, 140, 69, 80)
+    dusk = color(55, 58, 105, 80);
+    
     translate(width / 2, height / 2);
     colorMode(RGB);
     timeColor();
@@ -52,8 +54,14 @@ function draw() {
     seconds();
     minutes();
     hours();
+    mouseHover();
     clockFace();
    
+    //Cursor Change not woring //
+// if (mouseX >= (width / 2) - 50 && mouseX <= (width / 2) + 50) {
+//     image(coffeeMug, mouseX, mouseY)
+// }
+
 
         // Coffee Crash //
     if (coffee > 2 ) {
@@ -68,7 +76,7 @@ function draw() {
     noStroke();
 
     // Console Monitor //
-    console.log('seconds ', second());
+    // console.log('seconds ', second());
     // console.log('hour ', hour());
     // console.log('spin ', coffee);
     // console.log('time Percent', timePct);
@@ -81,14 +89,39 @@ function draw() {
 
     // new sky try - https://stackoverflow.com/questions/60196138/lerp-background-colour-based-on-time-of-day //
 
-function timeColor() {
+function timeColor() { 
     
-    if (second() >= 0 && second() <= 30) {
-        hourColor =  lerpHour(dusk, dawn, 0, 30);
+    if (hour() > 0 && hour() <= 5) {
+        hourColor =  lerpHour(night, dawn, 0, 5);
     }
-     if(second() > 30 && second() <= 60) {
-        hourColor = lerpHour(dawn, dusk, 30, 60);
+    if (hour() > 5 && hour() <= 6) {
+        hourColor = dawn;
     }
+    if (hour() > 6 && hour() <= 11) {
+        hourColor = lerpHour(dawn, midday, 6, 11);
+    }
+    if (hour() > 11 && hour() <= 13) {
+        hourColor = midday;
+    }
+    if (hour() > 13 && hour() <= 18) {
+        hourColor =  lerpHour(midday, sunset, 13, 18);
+    }
+    if (hour() > 18 && hour() <= 19) {
+        hourColor = sunset;
+    }
+    if (hour() > 19 && hour() <= 20) {
+        hourColor = lerpHour(sunset, dusk, 19, 20);
+    }
+    if (hour() > 20 && hour() <= 21) {
+        hourColor = dusk;
+    }
+    if (hour() > 21 && hour() <= 23) {
+        hourColor =  lerpHour(dusk, night, 21, 23);
+    }
+    if(hour() > 23 && hour() <= 0) {
+        hourColor = night;
+    }
+
 
 
     // Lerp test with Mouse //
@@ -108,7 +141,7 @@ function lerpHour(from, to, startTime, endTime) {
     // const mousePct = map(mouseX, 0, width, 0, 1);
     // return lerpColor(color(from), color(to), mousePct);
     
-    const timePct = map(second(), 0, 60, 0, 1);
+    const timePct = map(hour(), 0, 60, 0, 1);
     return lerpColor(color(from), color(to), timePct);
 
 }
@@ -138,12 +171,12 @@ function seconds() {
             //This is the spin animation. It advances by .004 each cycle - is clockwise + is counter // amount is speed // 
         secSpin = secSpin + .004 + coffee
 
-        var rMin = map(sin(frameCount), -1, 1, 80, 110)
-        var rMax = map(sin(frameCount), -1, 1, 90, 120)
+        var rMin = map(sin(frameCount), -1, 1, 80, 85)
+        var rMax = map(sin(frameCount), -1, 1, 95, 90)
 
             // adding spin is counterclockwase, subtracting is clockwise //
-        var r = map(sin(s * 10 + secSpin), -1, 1, rMin + secDiamIn, rMax + secDiamOut)
-        var x = r * cos(s)
+        var r = map(sin(s * 10 + secSpin), -1, 1, rMin + secDiamIn, rMax + secDiamOut) + coffee;
+        var x = r * cos(s) 
         var y = r * sin(s)
       
         vertex(x, y)
@@ -176,8 +209,8 @@ function minutes() {
         minSpin = minSpin + .002 + coffee * .25
 
             // Define crest & valley depth
-        var rMin = map(sin(frameCount), -1, 1, 130, 155)
-        var rMax = map(sin(frameCount), -1, 1, 180, 180)
+        var rMin = map(sin(frameCount), -1, 1, 130, 145)
+        var rMax = map(sin(frameCount), -1, 1, 180, 170)
 
             // adding spin is counterclockwase, subtracting is clockwise //
         var r = map(sin(m * 10 + minSpin), -1, 1, rMin + minDiamIn, rMax + minDiamOut)
@@ -215,8 +248,8 @@ function hours() {
                 //This is the spin animation. It advances by X each cycle - is clockwise + is counter // amount is speed // 
             hourSpin = hourSpin + .0004 + coffee * .05
 
-            var rMin = map(sin(frameCount), -1, 1, 220, 265)
-            var rMax = map(sin(frameCount), -1, 1, 255, 280)
+            var rMin = map(sin(frameCount), -1, 1, 240, 255)
+            var rMax = map(sin(frameCount), -1, 1, 250, 245)
 
                 // adding spin is counterclockwase, subtracting is clockwise //
             var r = map(sin(h * 10 + hourSpin), -1, 1, rMin + hourDiamIn, rMax + hourDiamOut)
@@ -232,14 +265,32 @@ function clockFace() {
     // noStroke();
     fill('smoke');
     textFont('helvetica');
-    textAlign(CENTER);
+    textAlign(LEFT);
     textSize(14);
-    text('Sip Coffee', 0, -9)
-    text(hour() + ' : ' + minute() + ' : ' + second() , 0,9);
+    text('Sip Coffee', -30, 8)
+    text('This representation of circadian rhythm changes with the local time.',-(width * .46), -(height * .40) -18)
+    text(hour() + ' : ' + minute() + ' : ' + second() ,-(width * .46), -(height * .40));
+    text('Increase your pep with some coffee.',-(width * .46), 8)
+}
+
+function mouseHover() {
+
+    let clickDist = dist(mouseX, mouseY, width/2, height/2)
+
+    if (clickDist < clickRad) {
+        cursor('assets/cafe8.png', 5,5)
+    } else  if (clickDist > clickRad) {
+        cursor(CROSS)
+    }
+    
 }
 
     // add coffee //
 function mousePressed() {
+    if (mouseX >= (width / 2) - 100 && mouseX <= (width / 2) + 100 &&
+    mouseY >= (height / 2) - 100 && mouseY <= (height / 2) + 100
+    ) {
     coffee = coffee + .05;
+    }
 }
 
