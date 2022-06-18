@@ -264,6 +264,9 @@ function hours() {
 function clockFace() {
     // noStroke();
     fill('smoke');
+    if (hour() >= 6 && hour() <=17) {
+        fill('black');
+    }
     textFont('helvetica');
     textAlign(LEFT);
     textSize(14);
