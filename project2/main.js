@@ -2,8 +2,10 @@ let canvas;
 let ctx;
 let pineBiom;
 let pineHov = false;
+let hardHov = false;
+let aspenHov = false;
+let prarieHov = false;
 let bgColor;
-
 
 function setup() {
 canvas = createCanvas(windowWidth, windowHeight);
@@ -11,48 +13,48 @@ ctx = canvas.drawingContext;
 // ctx = document.getElementById("canvas").getContext("2d");
 colPine = color('rgb(40, 153, 40)');
 colHardwood = color('rgb(148, 198, 143)');
+colAspen = color('rgb(207, 226, 131)');
+colPrarie = color('rgb(242, 242, 102)');
 colNuetral = color('rgb(237, 240, 230)');
-bgColor = colHardwood;
-
+bgColor = colNuetral;
 
 // mouseover test //
 // pineBiom = drawPine();
 // pineBiom.mouseOver(pine);
+}
 
-
-
+function windowResized() {
+	resizeCanvas(windowWidth, windowHeight);
 }
 
 function draw() {
 background(bgColor);  
+
+
 translate(width/2 - 200, height/2 -200);
+
+
+
 bioms(); 
 mapOutline();
 mapLine();
 
 translate( 200 - width/2,  200 - height/2);
 
-noFill();
-noStroke();
-drawPine();
-
-if (pineHov === true) {
-  fill('white');
-  rect(width * .6 , 100, width * .3, 300)
-  bgColor = color('rgb(101, 138, 101)');
-} else {
-  bgColor = colNuetral;
-}
-
 stroke('white');
 exteriorLineNorth();
 exteriorLineSouth();
 
+noFill();
+noStroke();
+drawPine();
+drawHardwood();
+drawAspen();
+drawPrarie();
 
 
 
 }
-
 
 function mapOutline() {
 // #polygon497
@@ -209,7 +211,7 @@ function exteriorLineNorth() {
   } 
 }
 
-  function exteriorLineSouth() {
+function exteriorLineSouth() {
     y=height/2 +206;
     ctx.strokeStyle = 'white';
     ctx.lineWidth = 4.000000;
@@ -653,48 +655,136 @@ function mapLine(){
 // fake Clicking on Biom :( //
 
 function drawPine() {
-  // #path51
-  radius = 200;
-  xCenter = width/2 + 30
-  yCenter = height/2 - 75
-  var d = dist(xCenter, yCenter,mouseX,mouseY);
-  ellipse(xCenter, yCenter, radius)
+	if (pineHov === true) {
+		fill(colNuetral);
+		rect(width * .6 , height *.1, width * .3, height *.5)
+ 		bgColor = colPine;
+  	} else {
+		bgColor = colNuetral;
+	}
+	noFill();
+	
+ 	radius = 200;
+ 	xPineCenter = width/2 + 30
+ 	yPineCenter = height/2 - 75
+ 	var d = dist(xPineCenter, yPineCenter, mouseX, mouseY);
+ 	ellipse(xPineCenter, yPineCenter, radius)
     if (d < radius/2) {
-    cursor(CROSS);
-    pineHov = true;
-  } else if (d > radius/2) {
-    cursor(ARROW)
-    pineHov = false;
+    	cursor(CROSS);
+		//weird, this fill makes my other one worK?
+		fill('white');
+    	pineHov = true;
+ 	} else if (d > radius/2) {
+    	cursor(ARROW)
+    	pineHov = false;
   }
 }
+
+function drawHardwood() {
+	if (hardHov === true) {
+		fill(colNuetral);
+		rect(width * .6 , height *.4, width * .3, height *.5)
+		bgColor = colHardwood;
+	} else {
+		bgColor = colNuetral;
+	} 
+	noFill();
+
+	radius = 125;
+	xHardCenter = width/2 + 25;
+	yHardCenter = height/2 +150;
+	var d = dist(xHardCenter, yHardCenter,mouseX,mouseY);
+	ellipse(xHardCenter, yHardCenter, radius)
+	  if (d < radius/2) {
+	  cursor(CROSS);
+	  
+	  fill('white');
+	  hardHov = true;
+	} else if (d > radius/2) {
+	  cursor(ARROW)
+	  hardHov = false;
+	}
+  }
+
+function drawAspen() {
+	if (aspenHov === true) {
+		fill(colNuetral);
+		rect(width * .05 , height *.1, width * .3, height *.5)
+		bgColor = colAspen;
+	} else {
+		bgColor = colNuetral;
+	}
+	noFill();
+	
+	radius = 40;
+	xAspenCenter = width/2 - 115;
+	yAspenCenter = height/2 - 130;
+	var d = dist(xAspenCenter, yAspenCenter, mouseX, mouseY);
+	ellipse(xAspenCenter, yAspenCenter, radius)
+	  if (d < radius/2) {
+	  cursor(CROSS);
+	  //weird, this fill makes my other one worK?
+	  fill('white');
+	  aspenHov = true;
+	} else if (d > radius/2) {
+	  cursor(ARROW)
+	  aspenHov = false;
+	}
+  }
+
+function drawPrarie() {
+	if (prarieHov === true) {
+		fill(colNuetral);
+		rect(width * .05, height *.4, width * .3, height *.5)
+ 		bgColor = colPrarie;
+	} else {
+		bgColor = colNuetral;
+	}
+	noFill();
+	
+	
+	radius = 125;
+	xPrarieCenter = width/2 - 110;
+	yPrarieCenter = height/2 + 120;
+	var d = dist(xPrarieCenter, yPrarieCenter, mouseX, mouseY);
+	ellipse(xPrarieCenter, yPrarieCenter, radius)
+	if (d < radius/2) {
+		cursor(CROSS);
+		fill('white');
+		prarieHov = true;
+	} else if (d > radius/2) {
+		cursor(ARROW)
+		prarieHov = false;
+	}
+  }
 
 
 
 function bioms(){
       	
 // Pine Biom
-ctx.beginPath();
-ctx.fillStyle = 'rgb(40, 153, 40)';
-ctx.moveTo(109.560000, 5.400000);
-ctx.bezierCurveTo(105.250000, 19.030000, 104.300000, 42.360000, 104.250000, 58.700000);
-ctx.bezierCurveTo(104.180000, 77.220000, 110.290000, 102.720000, 117.540000, 122.920000);
-ctx.bezierCurveTo(127.090000, 149.520000, 135.910000, 166.230000, 144.640000, 182.720000);
-ctx.bezierCurveTo(151.080000, 194.890000, 156.930000, 205.890000, 166.050000, 220.030000);
-ctx.bezierCurveTo(180.520000, 242.490000, 187.760000, 253.730000, 198.470000, 261.630000);
-ctx.bezierCurveTo(203.070000, 265.020000, 226.910000, 282.610000, 255.970000, 276.920000);
-ctx.bezierCurveTo(285.850000, 271.070000, 302.130000, 244.350000, 306.130000, 237.770000);
-ctx.bezierCurveTo(319.020000, 216.600000, 313.580000, 205.390000, 329.990000, 181.490000);
-ctx.bezierCurveTo(331.600000, 179.150000, 339.700000, 167.530000, 353.850000, 155.800000);
-ctx.bezierCurveTo(382.900000, 131.710000, 401.790000, 136.690000, 418.080000, 114.200000);
-ctx.bezierCurveTo(421.760000, 109.120000, 428.080000, 100.150000, 428.480000, 87.900000);
-ctx.bezierCurveTo(429.120000, 68.060000, 413.870000, 50.070000, 399.120000, 40.800000);
-ctx.bezierCurveTo(370.050000, 22.530000, 350.860000, 43.130000, 298.800000, 29.180000);
-ctx.bezierCurveTo(289.250000, 26.620000, 271.780000, 21.790000, 252.310000, 9.610000);
-ctx.bezierCurveTo(224.030000, -8.100000, 224.620000, -20.620000, 201.540000, -31.380000);
-ctx.bezierCurveTo(195.790000, -34.060000, 166.410000, -47.750000, 135.470000, -34.440000);
-ctx.bezierCurveTo(132.460000, -33.140000, 118.520000, -22.940000, 109.560000, 5.400000);
-ctx.closePath();
-ctx.fill();
+	ctx.beginPath();
+	ctx.fillStyle = 'rgb(40, 153, 40)';
+	ctx.moveTo(109.560000, 5.400000);
+	ctx.bezierCurveTo(105.250000, 19.030000, 104.300000, 42.360000, 104.250000, 58.700000);
+	ctx.bezierCurveTo(104.180000, 77.220000, 110.290000, 102.720000, 117.540000, 122.920000);
+	ctx.bezierCurveTo(127.090000, 149.520000, 135.910000, 166.230000, 144.640000, 182.720000);
+	ctx.bezierCurveTo(151.080000, 194.890000, 156.930000, 205.890000, 166.050000, 220.030000);
+	ctx.bezierCurveTo(180.520000, 242.490000, 187.760000, 253.730000, 198.470000, 261.630000);
+	ctx.bezierCurveTo(203.070000, 265.020000, 226.910000, 282.610000, 255.970000, 276.920000);
+	ctx.bezierCurveTo(285.850000, 271.070000, 302.130000, 244.350000, 306.130000, 237.770000);
+	ctx.bezierCurveTo(319.020000, 216.600000, 313.580000, 205.390000, 329.990000, 181.490000);
+	ctx.bezierCurveTo(331.600000, 179.150000, 339.700000, 167.530000, 353.850000, 155.800000);
+	ctx.bezierCurveTo(382.900000, 131.710000, 401.790000, 136.690000, 418.080000, 114.200000);
+	ctx.bezierCurveTo(421.760000, 109.120000, 428.080000, 100.150000, 428.480000, 87.900000);
+	ctx.bezierCurveTo(429.120000, 68.060000, 413.870000, 50.070000, 399.120000, 40.800000);
+	ctx.bezierCurveTo(370.050000, 22.530000, 350.860000, 43.130000, 298.800000, 29.180000);
+	ctx.bezierCurveTo(289.250000, 26.620000, 271.780000, 21.790000, 252.310000, 9.610000);
+	ctx.bezierCurveTo(224.030000, -8.100000, 224.620000, -20.620000, 201.540000, -31.380000);
+	ctx.bezierCurveTo(195.790000, -34.060000, 166.410000, -47.750000, 135.470000, -34.440000);
+	ctx.bezierCurveTo(132.460000, -33.140000, 118.520000, -22.940000, 109.560000, 5.400000);
+	ctx.closePath();
+	ctx.fill();
 	
 // Hardwood Biom
 	ctx.beginPath();
@@ -721,7 +811,7 @@ ctx.fill();
 	ctx.closePath();
 	ctx.fill();
 	
-// Aspem Biom
+// Aspen Biom
 	ctx.beginPath();
 	ctx.fillStyle = 'rgb(207, 226, 131)';
 	ctx.moveTo(104.240000, -14.180000);
@@ -765,8 +855,6 @@ ctx.fill();
 	ctx.bezierCurveTo(21.160000, 361.180000, 23.410000, 399.340000, 58.640000, 417.690000);
 	ctx.closePath();
 	ctx.fill();
-  noFill();
-
 }
 
 
