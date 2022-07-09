@@ -1,3 +1,6 @@
+// Grideint Background with Shaders 
+// reference : https://itp-xstory.github.io/p5js-shaders/#/./docs/setting-up-shaders-in-p5
+
 let canvas;
 let ctx;
 let pineBiom;
@@ -8,33 +11,45 @@ let prarieHov = false;
 let bgColor;
 let titleText;
 let popupText;
+let bubbleBackground = [];
+
+
+
+
 
 function setup() {
 canvas = createCanvas(windowWidth, windowHeight);
 ctx = canvas.drawingContext;
 
+c = color('rgba(164, 168, 50, 150)')
 colPine = color('rgb(40, 153, 40)');
 colHardwood = color('rgb(148, 198, 143)');
 colAspen = color('rgb(207, 226, 131)');
 colPrarie = color('rgb(242, 242, 102)');
-colNuetral = color('rgb(237, 240, 230)');
+colNuetral = color('rgb(237, 240, 1)');
 bgColor = colNuetral;
+
+
+for (let i = 0; i < 3; i++) {
+	bubbleBackground[i] = new Blob(random(100,600),random(100,600),random(50,300))
+	}
 }
 
-function windowResized() {
-	resizeCanvas(windowWidth, windowHeight);
 
-}
 
 function draw() {
-	
+
 background(bgColor);  
 
 
-gradientMove();
+
+// gradientMove();
 
 translate(width/2 - 200, height/2 -200);
-
+for (let i = 0; i < 3; i++) {
+	bubbleBackground[i].move();
+	bubbleBackground[i].show();
+	}
 
 
 bioms(); 
@@ -58,6 +73,10 @@ drawPrarie();
 
 
 
+}
+
+function windowResized() {
+	resizeCanvas(windowWidth, windowHeight);
 }
 
 function mapOutline() {
@@ -203,7 +222,6 @@ ctx.lineTo(61.000000, 394.500000);
 ctx.closePath();
 ctx.stroke();
 }
-
 
 // Drawing my repeating line pattern from the center out //
 function exteriorLineNorth() {
@@ -909,12 +927,68 @@ function bioms(){
 
 // why am I trying this at midnight? //
 
-function gradientMove() {
-	fill('red')
-	ellipse(500, 400, 300)
 
+
+class Blob {
+	constructor(x,y,r) {
+	  this.x = x;
+	  this.y = y;
+	  this.r = r;
+	  this.xspeed = 4;
+	  this.yspeed = -3;
+	}
 	
-}
+	move() {
+		  if (this.x > height || this.x < 0) {
+			  this.xspeed = this.xspeed * -1;
+		  }
+		  if (this.y > height || this.y < 0) {
+			  this.yspeed = this.yspeed * -1;
+		  }
+		  this.x = this.x + this.xspeed;
+		  this.y = this.y + this.yspeed;
+	}
+	
+	show() {
+		
+
+		  drawingContext.filter = 'blur(100px)';
+		  fill(c);
+		  circle(this.x , this.y, this.r * 2);
+		  drawingContext.filter = 'none';
+	  } 
+  }
+
+
+// function gradientMove() {
+// 	var grad = {
+// 		x:300,
+// 		y: 200,
+// 		xspeed:4,
+// 		yspeed:-3,
+// 		r:300
+// 	}
+	
+// 	drawingContext.filter = 'blur(20px)';
+// 	// draw things you want to be blurred
+
+// 	fill('red')
+// 	ellipse(grad.x, grad.y, grad.r, grad.r)
+
+// 	if (grad.x > height || grad.x < 0) {
+// 		grad.xspeed = grad.xspeed * -1;
+// 	}
+// 	if (grad.y > height || grad.y < 0) {
+// 		grad.yspeed = grad.yspeed * -1;
+// 	}
+
+// 	grad.x = grad.x + grad.xspeed;
+// 	grad.y = grad.y + grad.yspeed;
+
+
+// 	drawingContext.filter = 'none';
+
+// }
 
 
 
