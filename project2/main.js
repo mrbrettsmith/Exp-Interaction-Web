@@ -6,30 +6,32 @@ let hardHov = false;
 let aspenHov = false;
 let prarieHov = false;
 let bgColor;
+let titleText;
+let popupText;
 
 function setup() {
 canvas = createCanvas(windowWidth, windowHeight);
 ctx = canvas.drawingContext;
-// ctx = document.getElementById("canvas").getContext("2d");
+
 colPine = color('rgb(40, 153, 40)');
 colHardwood = color('rgb(148, 198, 143)');
 colAspen = color('rgb(207, 226, 131)');
 colPrarie = color('rgb(242, 242, 102)');
 colNuetral = color('rgb(237, 240, 230)');
 bgColor = colNuetral;
-
-// mouseover test //
-// pineBiom = drawPine();
-// pineBiom.mouseOver(pine);
 }
 
 function windowResized() {
 	resizeCanvas(windowWidth, windowHeight);
+
 }
 
 function draw() {
+	
 background(bgColor);  
 
+
+gradientMove();
 
 translate(width/2 - 200, height/2 -200);
 
@@ -47,6 +49,8 @@ exteriorLineSouth();
 
 noFill();
 noStroke();
+titleBox();
+
 drawPine();
 drawHardwood();
 drawAspen();
@@ -200,16 +204,18 @@ ctx.closePath();
 ctx.stroke();
 }
 
+
+// Drawing my repeating line pattern from the center out //
 function exteriorLineNorth() {
-  y=8;
-  ctx.strokeStyle = 'white';
-	ctx.lineWidth = 4.000000;
-	ctx.miterLimit = 10;
-  while(y < height/2 -184) {
-    line(0,y,width,y);
-    y = y + 12;
-  } 
-}
+	y=height/2 -200;
+	ctx.strokeStyle = 'white';
+	  ctx.lineWidth = 4.000000;
+	  ctx.miterLimit = 10;
+	while(y > 0) {
+	  line(0,y,width,y);
+	  y = y - 12;
+	} 
+  }
 
 function exteriorLineSouth() {
     y=height/2 +206;
@@ -651,19 +657,27 @@ function mapLine(){
 
 }
 
-
 // fake Clicking on Biom :( //
 
 function drawPine() {
 	if (pineHov === true) {
+
+		// pop-up box & contets
 		fill(colNuetral);
 		rect(width * .6 , height *.1, width * .3, height *.5)
- 		bgColor = colPine;
+		stroke('white');
+		rect(width * .6 + 12 , height *.1  + 12, width * .3 - 24, height *.5 - 24)
+		let popupText = 'Gabba Gabba Gabba Gabba Gabba';
+		noStroke();
+		fill(colPine);
+		text(popupText, width * .6 + 12 , height *.1  + 12, width * .3 - 24, height *.5 - 24)
+		
+ 		// bgColor = colPine;
   	} else {
 		bgColor = colNuetral;
 	}
 	noFill();
-	
+	// fake biom hover //
  	radius = 200;
  	xPineCenter = width/2 + 30
  	yPineCenter = height/2 - 75
@@ -682,9 +696,18 @@ function drawPine() {
 
 function drawHardwood() {
 	if (hardHov === true) {
+		bgColor = colHardwood;
 		fill(colNuetral);
 		rect(width * .6 , height *.4, width * .3, height *.5)
-		bgColor = colHardwood;
+
+		stroke('white');
+		rect(width * .6 + 12 , height *.4 + 12, width * .3 - 24, height *.5 - 24)
+		let popupText = 'Gabba Gabba Gabba Gabba Gabba';
+		noStroke();
+		fill(colPine);
+		text(popupText, width * .6 + 12 , height *.4  + 12, width * .3 - 24, height *.5 - 24)
+
+		// bgColor = colHardwood;
 	} else {
 		bgColor = colNuetral;
 	} 
@@ -704,12 +727,22 @@ function drawHardwood() {
 	  cursor(ARROW)
 	  hardHov = false;
 	}
-  }
+}
 
 function drawAspen() {
 	if (aspenHov === true) {
 		fill(colNuetral);
 		rect(width * .05 , height *.1, width * .3, height *.5)
+
+		stroke('white');
+		rect(width * .05 + 12 , height *.1 + 12, width * .3 - 24, height *.5 - 24)
+		let popupText = 'Gabba Gabba Gabba Gabba Gabba'; 
+		noStroke();
+		fill(colPine);
+		text(popupText, width * .05 + 12 , height *.1  + 12, width * .3 - 24, height *.5 - 24)
+
+
+
 		bgColor = colAspen;
 	} else {
 		bgColor = colNuetral;
@@ -730,13 +763,21 @@ function drawAspen() {
 	  cursor(ARROW)
 	  aspenHov = false;
 	}
-  }
+}
 
 function drawPrarie() {
 	if (prarieHov === true) {
 		fill(colNuetral);
 		rect(width * .05, height *.4, width * .3, height *.5)
- 		bgColor = colPrarie;
+
+		stroke('white');
+		rect(width * .05 + 12 , height *.4 + 12, width * .3 - 24, height *.5 - 24)
+		
+		noStroke();
+		fill(colPine);
+		let popupText = 'Gabba Gabba Gabba Gabba Gabba';
+		text(popupText, width * .05 + 12 , height *.4  + 12, width * .3 - 24, height *.5 - 24)
+ 		// bgColor = colPrarie;
 	} else {
 		bgColor = colNuetral;
 	}
@@ -756,9 +797,18 @@ function drawPrarie() {
 		cursor(ARROW)
 		prarieHov = false;
 	}
-  }
+}
 
-
+function titleBox() {
+			titleText = 'Planting for a Warming Minnesota';
+			fill('pink');
+			rect(width * .1 , height *.05, width * .8, 75)
+			stroke('white');
+			rect(width * .1 + 12 , height *.05  + 12, width * .8 - 24, 51)
+			noStroke();
+			fill(colPine);
+			text(titleText, width * .1 + 12 , height *.05  + 12, width * .8 - 24, 51);
+}
 
 function bioms(){
       	
@@ -856,6 +906,16 @@ function bioms(){
 	ctx.closePath();
 	ctx.fill();
 }
+
+// why am I trying this at midnight? //
+
+function gradientMove() {
+	fill('red')
+	ellipse(500, 400, 300)
+
+	
+}
+
 
 
 // Triangle collision Detection //
