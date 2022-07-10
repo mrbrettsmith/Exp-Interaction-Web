@@ -11,7 +11,7 @@ let bubbleBackground = [];
 
 	// Colors //
 	// Alpha value between 0.0 and 1.0 //
-const bubbleColors = ['rgba(148, 198, 143, .5)', 'rgba(229, 78, 252,.3)','rgba(253, 255, 148,.5)', 'rgba(237, 240, 1, .5)' ];
+const bubbleColors = ['rgba(148, 198, 143, .5)', 'rgba(229, 78, 252,.3)','rgba(253, 255, 148,.5)', 'rgba(237, 240, 1, .5)', 'rgba(255, 255, 255, .5)' ];
 const bgColor = 'rgb(210, 217, 173)';
 const colPine = 'rgb(40, 153, 40)';
 const colHardwood = 'rgb(148, 198, 143)';
@@ -21,55 +21,54 @@ const colPrarie = 'rgb(242, 242, 102)';
 // colNuetral = color('rgb(237, 240, 1)');
 
 
-
 function setup() {
-canvas = createCanvas(windowWidth, windowHeight);
-ctx = canvas.drawingContext;
-	// Background Gradient Loop //
-for (let i = 0; i < 10; i++) {
-	bubbleBackground[i] = new Blob()
-	}
+	canvas = createCanvas(windowWidth, windowHeight);
+	ctx = canvas.drawingContext;
+
+		// Background Gradient Loop //
+	for (let i = 0; i < 10; i++) {
+		bubbleBackground[i] = new Blob()
+		}
 }
 
 function draw() {
-background(bgColor);  
+	background(bgColor);  
 
-translate(width/2 - 200, height/2 -200);
+	translate(width/2 - 200, height/2 -200);
 
-	// Background Gradient Loop //
-for (let i = 0; i < 10; i++) {
-	bubbleBackground[i].move();
-	bubbleBackground[i].show();
-	}
+		// Background Gradient Loop //
+	for (let i = 0; i < 10; i++) {
+		bubbleBackground[i].move();
+		bubbleBackground[i].show();
+		}
 
-	// Map Biome Blobs //
-prarieBiome();
-pineBiome();
-hardwoodBiome();
-aspenBiome();
+		// Map Biome Blobs //
+	prarieBiome();
+	pineBiome();
+	hardwoodBiome();
+	aspenBiome();
 
-	// Map Outline & Line Pattern //
-mapOutline();
-mapLine();
+		// Map Outline & Line Pattern //
+	mapOutline();
+	mapLine();
 
-translate( 200 - width/2,  200 - height/2);
+	translate( 200 - width/2,  200 - height/2);
 
-stroke('white');
-exteriorLineNorth();
-exteriorLineSouth();
+	stroke('white');
+	exteriorLineNorth();
+	exteriorLineSouth();
 
-noFill();
-noStroke();
+	noFill();
+	noStroke();
 
-	// Text Boxes //
-titleBox();
+		// Text Boxes //
+	titleBox();
 
-	// Popup Boxes //
-drawPine();
-drawHardwood();
-drawAspen();
-drawPrarie();
-
+		// Popup Boxes //
+	drawPine();
+	drawHardwood();
+	drawAspen();
+	drawPrarie();
 }
 
 function windowResized() {
@@ -667,25 +666,46 @@ function mapLine(){
 	ctx.stroke();
 }
 
-// fake Clicking on Biom :( //
-
+	// Fake Hover on Biom :( //
 function drawPine() {
 	if (pineHov === true) {
 
-		// pop-up box & contets
-		fill(bgColor);
-		rect(width * .6 , height *.1, width * .3, height *.5)
+			// Pine Text //
+		let pineTitle = 'Coniferous Forest Biome';
+		let pineAdaptText = 'ADPTATION: This is filler text. A coniferous forest contains evergreen trees that bear cones. Elegant pines grow in this biome, along with spruce, fir, and tamarack. In much of the northern forest, the conifers mingle with deciduous trees, particularly aspen, birch, sugar maple, and basswood. Glaciers sculpted the coniferous biome, leaving only thin glacial deposits blanketing the bedrock in the northeast. Deeper deposits formed in the southern and western parts of this biome. ';
+		let pineMitigateText = 'MITIGATION: This is filler text. A coniferous forest contains evergreen trees that bear cones. Elegant pines grow in this biome, along with spruce, fir, and tamarack. In much of the northern forest, the conifers mingle with deciduous trees, particularly aspen, birch, sugar maple, and basswood. Glaciers sculpted the coniferous biome, leaving only thin glacial deposits blanketing the bedrock in the northeast. Deeper deposits formed in the southern and western parts of this biome.';
+		
+
+			// Title Styling //
+		fill(colHardwood);
+		rect(width * .6 , height *.16, width * .3, 75)
 		stroke('white');
-		rect(width * .6 + 12 , height *.1  + 12, width * .3 - 24, height *.5 - 24)
-		let popupText = 'Gabba Gabba Gabba Gabba Gabba';
-		// Text Color //
+		rect(width * .6 + 12 , height *.16 + 12, width * .3 - 24, 51)
 		noStroke();
-		fill(colPine);
-		text(popupText, width * .6 + 12 , height *.1  + 12, width * .3 - 24, height *.5 - 24)
-		
- 		// bgColor = colPine;
-  	} else {
-		
+		textFont('cabrito-extended')
+		textSize(22);
+		textStyle(NORMAL);
+		fill(colHardwood);
+		textAlign(CENTER, CENTER);
+
+		noStroke();
+		fill('white');
+		text(pineTitle, width * .6 + 12 , height * .16 + 13, width * .3 - 24, 51)
+
+			// Text Styling //
+		fill('white');
+		rect(width * .6 , height *.16 +87, width * .3, height *.5 + 75)
+		stroke(colHardwood);
+		rect(width * .6 + 12 , height *.16 + 99, width * .3 - 24, height *.5 - 24 + 75 )
+		noStroke();
+		textFont('le-monde-courrier-std-2')
+		textSize(14);
+		textStyle(NORMAL);
+		fill(colHardwood);
+		textAlign(LEFT, TOP);
+		text(pineAdaptText, width * .6 + 30 , height *.16 + 124, width * .3 -45, height *.5 - 30)
+		text(pineMitigateText, width * .6 + 30 , height *.16 + 330, width * .3 -45, height *.5 - 30)
+ 		
 	}
 	noFill();
 	// fake biom hover //
@@ -695,8 +715,7 @@ function drawPine() {
  	var d = dist(xPineCenter, yPineCenter, mouseX, mouseY);
  	ellipse(xPineCenter, yPineCenter, radius)
     if (d < radius/2) {
-    	cursor(CROSS);
-		//weird, this fill makes my other one worK?
+    	cursor(HAND);
 		fill('white');
     	pineHov = true;
  	} else if (d > radius/2) {
@@ -707,22 +726,40 @@ function drawPine() {
 
 function drawHardwood() {
 	if (hardHov === true) {
-		
-		fill(bgColor);
-		rect(width * .6 , height *.4, width * .3, height *.5)
+			// Harwood Text //
+		let hardTitle = 'Deciduous Forest Biome';
+		let hardAdaptText = 'ADPTATION: This is filler text. A coniferous forest contains evergreen trees that bear cones. Elegant pines grow in this biome, along with spruce, fir, and tamarack. In much of the northern forest, the conifers mingle with deciduous trees, particularly aspen, birch, sugar maple, and basswood. ';
+		let hardMitigateText = 'MITIGATION: This is filler text. A coniferous forest contains evergreen trees that bear cones. Elegant pines grow in this biome, along with spruce, fir, and tamarack. In much of the northern forest, the conifers mingle with deciduous trees.';
 
+			// Title Styling //
+		fill(colHardwood);
+		rect(width * .6 , height *.4, width * .3, 75)
 		stroke('white');
-		rect(width * .6 + 12 , height *.4 + 12, width * .3 - 24, height *.5 - 24)
-		let popupText = 'Gabba Gabba Gabba Gabba Gabba';
-		// Text Color //
+		rect(width * .6 + 12 , height *.4 + 12, width * .3 - 24, 51)
+		noStroke();
+		textFont('cabrito-extended')
+		textSize(22);
+		textStyle(NORMAL);
+		fill(colHardwood);
+		textAlign(CENTER, CENTER);
 
 		noStroke();
-		fill(colPine);
-		text(popupText, width * .6 + 12 , height *.4  + 12, width * .3 - 24, height *.5 - 24)
+		fill('white');
+		text(hardTitle, width * .6 + 12 , height * .4 + 13, width * .3 - 24, 51);
 
-	
-	} else {
-	
+			// Text Styling //
+		fill('white');
+		rect(width * .6 , height *.4 +87, width * .3, height *.3 + 75)
+		stroke(colHardwood);
+		rect(width * .6 + 12 , height *.4 + 99, width * .3 - 24, height *.3 - 24 + 75 )
+		noStroke();
+		textFont('le-monde-courrier-std-2')
+		textSize(14);
+		textStyle(NORMAL);
+		fill(colHardwood);
+		textAlign(LEFT, TOP);
+		text(hardAdaptText, width * .6 + 30 , height *.4 + 124, width * .3 -45, height *.3 - 30)
+		text(hardMitigateText, width * .6 + 30 , height *.4 + 258, width * .3 -45, height *.3 - 30)
 	} 
 	noFill();
 
@@ -732,33 +769,54 @@ function drawHardwood() {
 	var d = dist(xHardCenter, yHardCenter,mouseX,mouseY);
 	ellipse(xHardCenter, yHardCenter, radius)
 	  if (d < radius/2) {
-	  cursor(CROSS);
+	  cursor(HAND);
 	  
 	  fill('white');
 	  hardHov = true;
 	} else if (d > radius/2) {
-	  cursor(ARROW)
+	  cursor(ARROW);
 	  hardHov = false;
 	}
 }
 
 function drawAspen() {
 	if (aspenHov === true) {
-		fill(bgColor);
-		rect(width * .05 , height *.1, width * .3, height *.5)
 
-		stroke('white');
-		rect(width * .05 + 12 , height *.1 + 12, width * .3 - 24, height *.5 - 24)
-		let popupText = 'Gabba Gabba Gabba Gabba Gabba'; 
-
-		// Text Color //
-		noStroke();
-		fill(colPine);
-		text(popupText, width * .05 + 12 , height *.1  + 12, width * .3 - 24, height *.5 - 24)
-
-
-	} else {
+			// Aspen Text //
+		let aspenTitle = 'Aspen Parkland Biome';
+		let aspenAdaptText = 'ADPTATION: This is filler text. A coniferous forest contains evergreen trees that bear cones. Elegant aspens grow in this biome, along with spruce, fir, and tamarack. In much of the northern forest, the conifers mingle with deciduous trees, particularly aspen, birch, sugar maple, and basswood. Glaciers sculpted the coniferous biome, leaving only thin glacial deposits blanketing the bedrock in the northeast. Deeper deposits formed in the southern and western parts of this biome. ';
+		let aspenMitigateText = 'MITIGATION: This is filler text. A coniferous forest contains evergreen trees that bear cones. Elegant pines grow in this biome, along with spruce, fir, and tamarack. In much of the northern forest, the conifers mingle with deciduous trees, particularly aspen, birch, sugar maple, and basswood. Glaciers sculpted the coniferous biome, leaving only thin glacial deposits blanketing the bedrock in the northeast. Deeper deposits formed in the southern and western parts of this biome.';
+		
+			// Title Styling //
+			fill(colHardwood);
+			rect(width * .05 , height *.16, width * .3, 75)
+			stroke('white');
+			rect(width * .05 + 12 , height *.16 + 12, width * .3 - 24, 51)
+			noStroke();
+			textFont('cabrito-extended')
+			textSize(22);
+			textStyle(NORMAL);
+			fill(colHardwood);
+			textAlign(CENTER, CENTER);
 	
+			noStroke();
+			fill('white');
+			text(aspenTitle, width * .05 + 12 , height * .16 + 13, width * .3 - 24, 51)
+	
+			// Text Styling //
+		fill('white');
+		rect(width * .05 , height *.16 +87, width * .3, height *.5 + 75)
+		stroke(colHardwood);
+		rect(width * .05 + 12 , height *.16 + 99, width * .3 - 24, height *.5 - 24 + 75 )
+		noStroke();
+		textFont('le-monde-courrier-std-2')
+		textSize(14);
+		textStyle(NORMAL);
+		fill(colHardwood);
+		textAlign(LEFT, TOP);
+		text(aspenAdaptText, width * .05 + 30 , height *.16 + 124, width * .3 -45, height *.5 - 30)
+		text(aspenMitigateText, width * .05 + 30 , height *.16 + 330, width * .3 -45, height *.5 - 30)
+ 		
 	}
 	noFill();
 	
@@ -768,8 +826,7 @@ function drawAspen() {
 	var d = dist(xAspenCenter, yAspenCenter, mouseX, mouseY);
 	ellipse(xAspenCenter, yAspenCenter, radius)
 	  if (d < radius/2) {
-	  cursor(CROSS);
-	  //weird, this fill makes my other one worK?
+	  cursor(HAND);
 	  fill('white');
 	  aspenHov = true;
 	} else if (d > radius/2) {
@@ -780,20 +837,42 @@ function drawAspen() {
 
 function drawPrarie() {
 	if (prarieHov === true) {
-		fill(bgColor);
-		rect(width * .05, height *.4, width * .3, height *.5)
+			// PrarieText //
+		let prarieTitle = 'Prairie Grassland Biome';
+		let prarieAdaptText = 'ADPTATION: This is filler text. A coniferous forest contains evergreen trees that bear cones. Elegant pines grow in this biome, along with spruce, fir, and tamarack. In much of the northern forest, the conifers mingle with deciduous trees, particularly aspen, birch, sugar maple, and basswood. ';
+		let prarieMitigateText = 'MITIGATION: This is filler text. A coniferous forest contains evergreen trees that bear cones. Elegant pines grow in this biome, along with spruce, fir, and tamarack. In much of the northern forest, the conifers mingle with deciduous trees.';
 
+				// Title Styling //
+		fill(colHardwood);
+		rect(width * .05 , height *.4, width * .3, 75)
 		stroke('white');
-		rect(width * .05 + 12 , height *.4 + 12, width * .3 - 24, height *.5 - 24)
-		
-		// Text Color //
+		rect(width * .05 + 12 , height *.4 + 12, width * .3 - 24, 51)
 		noStroke();
-		fill(colPine);
-		let popupText = 'Gabba Gabba Gabba Gabba Gabba';
-		text(popupText, width * .05 + 12 , height *.4  + 12, width * .3 - 24, height *.5 - 24)
- 		
-	} else {
-		
+		textFont('cabrito-extended')
+		textSize(22);
+		textStyle(NORMAL);
+		fill(colHardwood);
+		textAlign(CENTER, CENTER);
+
+		noStroke();
+		fill('white');
+		text(prarieTitle, width * .05 + 12 , height * .4 + 13, width * .3 - 24, 51);
+
+			// Text Styling //
+		fill('white');
+		rect(width * .05 , height *.4 +87, width * .3, height *.3 + 75)
+		stroke(colHardwood);
+		rect(width * .05 + 12 , height *.4 + 99, width * .3 - 24, height *.3 - 24 + 75 )
+		noStroke();
+		textFont('le-monde-courrier-std-2')
+		textSize(14);
+		textStyle(NORMAL);
+		fill(colHardwood);
+		textAlign(LEFT, TOP);
+		text(prarieAdaptText, width * .05 + 30 , height *.4 + 124, width * .3 -45, height *.3 - 30)
+		text(prarieMitigateText, width * .05 + 30 , height *.4 + 258, width * .3 -45, height *.3 - 30)
+	
+ 	
 	}
 	noFill();
 	
@@ -804,7 +883,7 @@ function drawPrarie() {
 	var d = dist(xPrarieCenter, yPrarieCenter, mouseX, mouseY);
 	ellipse(xPrarieCenter, yPrarieCenter, radius)
 	if (d < radius/2) {
-		cursor(CROSS);
+		cursor(HAND);
 		fill('white');
 		prarieHov = true;
 	} else if (d > radius/2) {
@@ -814,14 +893,23 @@ function drawPrarie() {
 }
 
 function titleBox() {
-			titleText = 'Planting for a Warming Minnesota';
-			fill(bgColor);
-			rect(width * .1 , height *.05, width * .8, 75)
-			stroke('white');
-			rect(width * .1 + 12 , height *.05  + 12, width * .8 - 24, 51)
-			noStroke();
-			fill(colPine);
-			text(titleText, width * .1 + 12 , height *.05  + 12, width * .8 - 24, 51);
+	titleText = 'PLANTING FOR A WARMING MINNESOTA';
+	fill('white');
+	rect(width * .1 , height *.05, width * .8, 75)
+	stroke(colHardwood);
+	rect(width * .1 + 12 , height *.05  + 12, width * .8 - 24, 51)
+
+		// Text Styling
+	noStroke();
+	textFont('cabrito-extended')
+	// textStyle(BOLD)
+	textSize(28);
+	fill(colHardwood);
+	textAlign(CENTER, CENTER);
+	text(titleText, width * .1 + 12 , height *.05  + 15, width * .8 - 24, 51);
+
+
+
 }
 
 	// Graphic Biome Blobs - hopefully animated someday //
@@ -936,11 +1024,11 @@ function prarieBiome() {
 	// Background Gradient Loop //
 class Blob {
 	constructor() {
-		this.x = random(100,600);
-		this.y = random(100,600);
-		this.r = random(50,300);
-		this.xspeed = random(-1, 3);
-		this.yspeed = random(-3, 1);
+		this.x = random(0,width-100);
+		this.y = random(0,height-100);
+		this.r = random(50,700);
+		this.xspeed = random(-2, 2);
+		this.yspeed = random(-2, 2);
 		this.bubCol = random(bubbleColors);
 	}
 	
