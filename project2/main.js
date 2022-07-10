@@ -1,6 +1,6 @@
 let canvas;
 let ctx;
-let pineBiom;
+
 let pineHov = false;
 let hardHov = false;
 let aspenHov = false;
@@ -45,7 +45,13 @@ for (let i = 0; i < 10; i++) {
 	}
 
 
-bioms(); 
+
+
+pineBiome();
+hardwoodBiome();
+aspenBiome();
+prarieBiome();
+
 
 	// Map Ouutline & Line Pattern //
 mapOutline();
@@ -230,7 +236,6 @@ function exteriorLineNorth() {
 	  y = y - 12;
 	} 
   }
-
 function exteriorLineSouth() {
     y=height/2 +206;
     ctx.strokeStyle = 'white';
@@ -241,7 +246,6 @@ function exteriorLineSouth() {
     y = y + 12;
   } 
 }
-
 function mapLine(){
 
   ctx.strokeStyle = 'white';
@@ -824,9 +828,9 @@ function titleBox() {
 			text(titleText, width * .1 + 12 , height *.05  + 12, width * .8 - 24, 51);
 }
 
-function bioms(){
-      	
-// Pine Biom
+
+function pineBiome(){
+// Pine Biome
 	ctx.beginPath();
 	ctx.fillStyle = 'rgb(40, 153, 40)';
 	ctx.moveTo(109.560000, 5.400000);
@@ -849,8 +853,12 @@ function bioms(){
 	ctx.bezierCurveTo(132.460000, -33.140000, 118.520000, -22.940000, 109.560000, 5.400000);
 	ctx.closePath();
 	ctx.fill();
-	
-// Hardwood Biom
+
+
+}
+
+function hardwoodBiome(){
+	// Hardwood Biome
 	ctx.beginPath();
 	ctx.fillStyle = 'rgb(148, 198, 143)';
 	ctx.moveTo(242.520000, 291.000000);
@@ -874,8 +882,10 @@ function bioms(){
 	ctx.bezierCurveTo(191.340000, 265.480000, 199.900000, 271.590000, 242.520000, 291.000000);
 	ctx.closePath();
 	ctx.fill();
-	
-// Aspen Biom
+}
+
+function aspenBiome() {
+// Aspen Biome
 	ctx.beginPath();
 	ctx.fillStyle = 'rgb(207, 226, 131)';
 	ctx.moveTo(104.240000, -14.180000);
@@ -894,9 +904,11 @@ function bioms(){
 	ctx.bezierCurveTo(73.060000, -47.330000, 87.940000, -48.680000, 96.730000, -40.110000);
 	ctx.bezierCurveTo(103.410000, -33.590000, 103.820000, -24.060000, 104.240000, -14.180000);
 	ctx.closePath();
-	ctx.fill();
-	
-// Prarie 
+	ctx.fill();	
+}
+
+function prarieBiome() {
+// Prarie Biome
 	ctx.beginPath();
 	ctx.fillStyle = 'rgb(242, 242, 102)';
 	ctx.moveTo(58.640000, 417.690000);
@@ -919,7 +931,7 @@ function bioms(){
 	ctx.bezierCurveTo(21.160000, 361.180000, 23.410000, 399.340000, 58.640000, 417.690000);
 	ctx.closePath();
 	ctx.fill();
-}
+}	
 
 	// Background Gradient Loop //
 class Blob {
