@@ -12,26 +12,29 @@ let bgColor;
 let titleText;
 let popupText;
 let bubbleBackground = [];
-
-
+let bubbleColors = ['rgba(148, 198, 143,.75)', 'rgba(229, 78, 252,.75)','rgba(253, 255, 148,.75)']
+let bc;
 
 
 
 function setup() {
 canvas = createCanvas(windowWidth, windowHeight);
 ctx = canvas.drawingContext;
-
-c = color('rgba(164, 168, 50, 150)')
+// Alpha value between 0.0 and 1.0 //
+c = color('rgba(164, 168, 50, .5)')
 colPine = color('rgb(40, 153, 40)');
 colHardwood = color('rgb(148, 198, 143)');
 colAspen = color('rgb(207, 226, 131)');
 colPrarie = color('rgb(242, 242, 102)');
 colNuetral = color('rgb(237, 240, 1)');
 bgColor = colNuetral;
+randomCol = random(bubbleColors.length);
+randomCol = floor(randomCol);
 
 
-for (let i = 0; i < 3; i++) {
-	bubbleBackground[i] = new Blob(random(100,600),random(100,600),random(50,300))
+// Background Gradient Loop //
+for (let i = 0; i < 5; i++) {
+	bubbleBackground[i] = new Blob(random(width),random(height),random(50,300),random(-1,1), random(-1,1), color(bubbleColors[randomCol]))
 	}
 }
 
@@ -43,10 +46,12 @@ background(bgColor);
 
 
 
-// gradientMove();
+
 
 translate(width/2 - 200, height/2 -200);
-for (let i = 0; i < 3; i++) {
+
+// Background Gradient Loop //
+for (let i = 0; i < 5; i++) {
 	bubbleBackground[i].move();
 	bubbleBackground[i].show();
 	}
@@ -70,8 +75,6 @@ drawPine();
 drawHardwood();
 drawAspen();
 drawPrarie();
-
-
 
 }
 
@@ -930,12 +933,13 @@ function bioms(){
 
 
 class Blob {
-	constructor(x,y,r) {
+	constructor(x, y, r, xSpe, ySpe, rbc) {
 	  this.x = x;
 	  this.y = y;
 	  this.r = r;
-	  this.xspeed = 4;
-	  this.yspeed = -3;
+	  this.xspeed = xSpe;
+	  this.yspeed = -ySpe;
+	  this.bc = rbc;
 	}
 	
 	move() {
@@ -953,10 +957,11 @@ class Blob {
 		
 
 		  drawingContext.filter = 'blur(100px)';
-		  fill(c);
+		  fill(bc);
 		  circle(this.x , this.y, this.r * 2);
 		  drawingContext.filter = 'none';
 	  } 
+	
   }
 
 
