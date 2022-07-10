@@ -5,33 +5,31 @@ let pineHov = false;
 let hardHov = false;
 let aspenHov = false;
 let prarieHov = false;
-let bgColor;
 let titleText;
 let popupText;
 let bubbleBackground = [];
-const bubbleColors = ['rgba(148, 198, 143, .5)', 'rgba(229, 78, 252,.25)','rgba(253, 255, 148,.5)'];
+
+	// Colors //
+	// Alpha value between 0.0 and 1.0 //
+const bubbleColors = ['rgba(148, 198, 143, .5)', 'rgba(229, 78, 252,.3)','rgba(253, 255, 148,.5)', 'rgba(237, 240, 1, .5)' ];
+const bgColor = 'rgb(210, 217, 173)';
+const colPine = 'rgb(40, 153, 40)';
+const colHardwood = 'rgb(148, 198, 143)';
+const colAspen = 'rgb(207, 226, 131)';
+const colPrarie = 'rgb(242, 242, 102)';
+// c = color('rgba(164, 168, 50, .5)')
+// colNuetral = color('rgb(237, 240, 1)');
+
 
 
 function setup() {
 canvas = createCanvas(windowWidth, windowHeight);
 ctx = canvas.drawingContext;
-
-	// Alpha value between 0.0 and 1.0 //
-c = color('rgba(164, 168, 50, .5)')
-colPine = color('rgb(40, 153, 40)');
-colHardwood = color('rgb(148, 198, 143)');
-colAspen = color('rgb(207, 226, 131)');
-colPrarie = color('rgb(242, 242, 102)');
-colNuetral = color('rgb(237, 240, 1)');
-bgColor = colNuetral;
-
 	// Background Gradient Loop //
 for (let i = 0; i < 10; i++) {
 	bubbleBackground[i] = new Blob()
 	}
 }
-
-
 
 function draw() {
 background(bgColor);  
@@ -44,16 +42,13 @@ for (let i = 0; i < 10; i++) {
 	bubbleBackground[i].show();
 	}
 
-
-
-
+	// Map Biome Blobs //
+prarieBiome();
 pineBiome();
 hardwoodBiome();
 aspenBiome();
-prarieBiome();
 
-
-	// Map Ouutline & Line Pattern //
+	// Map Outline & Line Pattern //
 mapOutline();
 mapLine();
 
@@ -85,7 +80,7 @@ function mapOutline() {
 // #polygon497
 
 ctx.beginPath();
-ctx.strokeStyle = 'white';
+stroke('white');
 ctx.lineWidth = 6.000000;
 ctx.miterLimit = 10;
 ctx.moveTo(61.000000, 394.500000);
@@ -227,28 +222,27 @@ ctx.stroke();
 
 	// Drawing my repeating line pattern from the center out //
 function exteriorLineNorth() {
-	y=height/2 -200;
-	ctx.strokeStyle = 'white';
-	  ctx.lineWidth = 4.000000;
-	  ctx.miterLimit = 10;
+	y=height/2 -202;
+	stroke('white');
+	ctx.lineWidth = 4.000000;
+	ctx.miterLimit = 10;
 	while(y > 0) {
-	  line(0,y,width,y);
-	  y = y - 12;
+		line(0,y,width,y);
+		y = y - 12;
 	} 
   }
 function exteriorLineSouth() {
     y=height/2 +206;
-    ctx.strokeStyle = 'white';
+    stroke('white');
     ctx.lineWidth = 4.000000;
     ctx.miterLimit = 10;
-    while(y > 200 && y < height) {
-    line(0, y, width, y);
-    y = y + 12;
-  } 
+		while(y > 200 && y < height) {
+		line(0, y, width, y);
+		y = y + 12;
+  	} 
 }
 function mapLine(){
-
-  ctx.strokeStyle = 'white';
+	stroke('white');
 	ctx.lineWidth = 4.000000;
 	ctx.miterLimit = 10;
   
@@ -671,8 +665,6 @@ function mapLine(){
 	ctx.moveTo(width, 10.500000);
 	ctx.lineTo(135.000000, 10.500000);
 	ctx.stroke();
-
-
 }
 
 // fake Clicking on Biom :( //
@@ -681,18 +673,19 @@ function drawPine() {
 	if (pineHov === true) {
 
 		// pop-up box & contets
-		fill(colNuetral);
+		fill(bgColor);
 		rect(width * .6 , height *.1, width * .3, height *.5)
 		stroke('white');
 		rect(width * .6 + 12 , height *.1  + 12, width * .3 - 24, height *.5 - 24)
 		let popupText = 'Gabba Gabba Gabba Gabba Gabba';
+		// Text Color //
 		noStroke();
 		fill(colPine);
 		text(popupText, width * .6 + 12 , height *.1  + 12, width * .3 - 24, height *.5 - 24)
 		
  		// bgColor = colPine;
   	} else {
-		bgColor = colNuetral;
+		
 	}
 	noFill();
 	// fake biom hover //
@@ -714,20 +707,22 @@ function drawPine() {
 
 function drawHardwood() {
 	if (hardHov === true) {
-		bgColor = colHardwood;
-		fill(colNuetral);
+		
+		fill(bgColor);
 		rect(width * .6 , height *.4, width * .3, height *.5)
 
 		stroke('white');
 		rect(width * .6 + 12 , height *.4 + 12, width * .3 - 24, height *.5 - 24)
 		let popupText = 'Gabba Gabba Gabba Gabba Gabba';
+		// Text Color //
+
 		noStroke();
 		fill(colPine);
 		text(popupText, width * .6 + 12 , height *.4  + 12, width * .3 - 24, height *.5 - 24)
 
-		// bgColor = colHardwood;
+	
 	} else {
-		bgColor = colNuetral;
+	
 	} 
 	noFill();
 
@@ -749,21 +744,21 @@ function drawHardwood() {
 
 function drawAspen() {
 	if (aspenHov === true) {
-		fill(colNuetral);
+		fill(bgColor);
 		rect(width * .05 , height *.1, width * .3, height *.5)
 
 		stroke('white');
 		rect(width * .05 + 12 , height *.1 + 12, width * .3 - 24, height *.5 - 24)
 		let popupText = 'Gabba Gabba Gabba Gabba Gabba'; 
+
+		// Text Color //
 		noStroke();
 		fill(colPine);
 		text(popupText, width * .05 + 12 , height *.1  + 12, width * .3 - 24, height *.5 - 24)
 
 
-
-		bgColor = colAspen;
 	} else {
-		bgColor = colNuetral;
+	
 	}
 	noFill();
 	
@@ -785,19 +780,20 @@ function drawAspen() {
 
 function drawPrarie() {
 	if (prarieHov === true) {
-		fill(colNuetral);
+		fill(bgColor);
 		rect(width * .05, height *.4, width * .3, height *.5)
 
 		stroke('white');
 		rect(width * .05 + 12 , height *.4 + 12, width * .3 - 24, height *.5 - 24)
 		
+		// Text Color //
 		noStroke();
 		fill(colPine);
 		let popupText = 'Gabba Gabba Gabba Gabba Gabba';
 		text(popupText, width * .05 + 12 , height *.4  + 12, width * .3 - 24, height *.5 - 24)
- 		// bgColor = colPrarie;
+ 		
 	} else {
-		bgColor = colNuetral;
+		
 	}
 	noFill();
 	
@@ -819,7 +815,7 @@ function drawPrarie() {
 
 function titleBox() {
 			titleText = 'Planting for a Warming Minnesota';
-			fill('pink');
+			fill(bgColor);
 			rect(width * .1 , height *.05, width * .8, 75)
 			stroke('white');
 			rect(width * .1 + 12 , height *.05  + 12, width * .8 - 24, 51)
@@ -828,11 +824,12 @@ function titleBox() {
 			text(titleText, width * .1 + 12 , height *.05  + 12, width * .8 - 24, 51);
 }
 
-
+	// Graphic Biome Blobs - hopefully animated someday //
 function pineBiome(){
 // Pine Biome
 	ctx.beginPath();
-	ctx.fillStyle = 'rgb(40, 153, 40)';
+	// ctx.fillStyle = 'rgb(40, 153, 40)';
+	fill(color('rgb(40, 153, 40)'));
 	ctx.moveTo(109.560000, 5.400000);
 	ctx.bezierCurveTo(105.250000, 19.030000, 104.300000, 42.360000, 104.250000, 58.700000);
 	ctx.bezierCurveTo(104.180000, 77.220000, 110.290000, 102.720000, 117.540000, 122.920000);
@@ -860,7 +857,8 @@ function pineBiome(){
 function hardwoodBiome(){
 	// Hardwood Biome
 	ctx.beginPath();
-	ctx.fillStyle = 'rgb(148, 198, 143)';
+	// ctx.fillStyle = 'rgb(148, 198, 143)';
+	fill(color('rgb(148, 198, 143)'));
 	ctx.moveTo(242.520000, 291.000000);
 	ctx.bezierCurveTo(272.830000, 304.800000, 276.500000, 308.470000, 286.890000, 317.680000);
 	ctx.bezierCurveTo(290.040000, 320.470000, 301.340000, 331.390000, 314.090000, 347.280000);
@@ -887,7 +885,8 @@ function hardwoodBiome(){
 function aspenBiome() {
 // Aspen Biome
 	ctx.beginPath();
-	ctx.fillStyle = 'rgb(207, 226, 131)';
+	// ctx.fillStyle = 'rgb(207, 226, 131)';
+	fill(color('rgb(207, 226, 131)'));
 	ctx.moveTo(104.240000, -14.180000);
 	ctx.bezierCurveTo(104.580000, -6.090000, 103.280000, -3.510000, 101.510000, 10.380000);
 	ctx.bezierCurveTo(99.810000, 23.720000, 99.430000, 33.790000, 99.120000, 41.760000);
@@ -910,7 +909,8 @@ function aspenBiome() {
 function prarieBiome() {
 // Prarie Biome
 	ctx.beginPath();
-	ctx.fillStyle = 'rgb(242, 242, 102)';
+	// ctx.fillStyle = 'rgb(242, 242, 102)';
+	fill(color('rgb(242, 242, 102)'));
 	ctx.moveTo(58.640000, 417.690000);
 	ctx.bezierCurveTo(77.330000, 427.420000, 106.250000, 437.140000, 124.390000, 437.140000);
 	ctx.bezierCurveTo(138.990000, 437.140000, 150.740000, 432.960000, 161.700000, 424.850000);
