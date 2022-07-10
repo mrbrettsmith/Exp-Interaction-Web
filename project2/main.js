@@ -1,6 +1,3 @@
-// Grideint Background with Shaders 
-// reference : https://itp-xstory.github.io/p5js-shaders/#/./docs/setting-up-shaders-in-p5
-
 let canvas;
 let ctx;
 let pineBiom;
@@ -12,15 +9,14 @@ let bgColor;
 let titleText;
 let popupText;
 let bubbleBackground = [];
-let bubbleColors = ['rgba(148, 198, 143,.75)', 'rgba(229, 78, 252,.75)','rgba(253, 255, 148,.75)']
-let bc;
-
+const bubbleColors = ['rgba(148, 198, 143, .5)', 'rgba(229, 78, 252,.25)','rgba(253, 255, 148,.5)'];
 
 
 function setup() {
 canvas = createCanvas(windowWidth, windowHeight);
 ctx = canvas.drawingContext;
-// Alpha value between 0.0 and 1.0 //
+
+	// Alpha value between 0.0 and 1.0 //
 c = color('rgba(164, 168, 50, .5)')
 colPine = color('rgb(40, 153, 40)');
 colHardwood = color('rgb(148, 198, 143)');
@@ -28,36 +24,30 @@ colAspen = color('rgb(207, 226, 131)');
 colPrarie = color('rgb(242, 242, 102)');
 colNuetral = color('rgb(237, 240, 1)');
 bgColor = colNuetral;
-randomCol = random(bubbleColors.length);
-randomCol = floor(randomCol);
 
-
-// Background Gradient Loop //
-for (let i = 0; i < 5; i++) {
-	bubbleBackground[i] = new Blob(random(width),random(height),random(50,300),random(-1,1), random(-1,1), color(bubbleColors[randomCol]))
+	// Background Gradient Loop //
+for (let i = 0; i < 10; i++) {
+	bubbleBackground[i] = new Blob()
 	}
 }
 
 
 
 function draw() {
-
 background(bgColor);  
-
-
-
-
 
 translate(width/2 - 200, height/2 -200);
 
-// Background Gradient Loop //
-for (let i = 0; i < 5; i++) {
+	// Background Gradient Loop //
+for (let i = 0; i < 10; i++) {
 	bubbleBackground[i].move();
 	bubbleBackground[i].show();
 	}
 
 
 bioms(); 
+
+	// Map Ouutline & Line Pattern //
 mapOutline();
 mapLine();
 
@@ -69,8 +59,11 @@ exteriorLineSouth();
 
 noFill();
 noStroke();
+
+	// Text Boxes //
 titleBox();
 
+	// Popup Boxes //
 drawPine();
 drawHardwood();
 drawAspen();
@@ -226,7 +219,7 @@ ctx.closePath();
 ctx.stroke();
 }
 
-// Drawing my repeating line pattern from the center out //
+	// Drawing my repeating line pattern from the center out //
 function exteriorLineNorth() {
 	y=height/2 -200;
 	ctx.strokeStyle = 'white';
@@ -928,18 +921,15 @@ function bioms(){
 	ctx.fill();
 }
 
-// why am I trying this at midnight? //
-
-
-
+	// Background Gradient Loop //
 class Blob {
-	constructor(x, y, r, xSpe, ySpe, rbc) {
-	  this.x = x;
-	  this.y = y;
-	  this.r = r;
-	  this.xspeed = xSpe;
-	  this.yspeed = -ySpe;
-	  this.bc = rbc;
+	constructor() {
+		this.x = random(100,600);
+		this.y = random(100,600);
+		this.r = random(50,300);
+		this.xspeed = random(-1, 3);
+		this.yspeed = random(-3, 1);
+		this.bubCol = random(bubbleColors);
 	}
 	
 	move() {
@@ -954,50 +944,16 @@ class Blob {
 	}
 	
 	show() {
-		
-
-		  drawingContext.filter = 'blur(100px)';
-		  fill(bc);
-		  circle(this.x , this.y, this.r * 2);
-		  drawingContext.filter = 'none';
+		drawingContext.filter = 'blur(100px)';
+		noStroke();
+		fill(this.bubCol);
+		circle(this.x , this.y, this.r * 2);
+		drawingContext.filter = 'none';
 	  } 
 	
   }
 
-
-// function gradientMove() {
-// 	var grad = {
-// 		x:300,
-// 		y: 200,
-// 		xspeed:4,
-// 		yspeed:-3,
-// 		r:300
-// 	}
-	
-// 	drawingContext.filter = 'blur(20px)';
-// 	// draw things you want to be blurred
-
-// 	fill('red')
-// 	ellipse(grad.x, grad.y, grad.r, grad.r)
-
-// 	if (grad.x > height || grad.x < 0) {
-// 		grad.xspeed = grad.xspeed * -1;
-// 	}
-// 	if (grad.y > height || grad.y < 0) {
-// 		grad.yspeed = grad.yspeed * -1;
-// 	}
-
-// 	grad.x = grad.x + grad.xspeed;
-// 	grad.y = grad.y + grad.yspeed;
-
-
-// 	drawingContext.filter = 'none';
-
-// }
-
-
-
-// Triangle collision Detection //
+// Triangle collision Detection - for future experements //
 // found here https://stackoverflow.com/questions/47234052/click-on-the-triangle-project-in-p5-js-allows-clicking-outside-of-triangle-fix //
 //
 // function collisionDetection(mx,my,x1,y1,x2,y2,x3,y3) {
